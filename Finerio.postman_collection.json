@@ -1,0 +1,456 @@
+{
+	"info": {
+		"_postman_id": "a4b96d78-fdb7-4de0-969d-cb8b908e1683",
+		"name": "Finerio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Oauth Token",
+			"item": [
+				{
+					"name": "Oauth Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1dbb6062-7106-4bc9-913b-36ae9f4ac4a3",
+								"exec": [
+									"const tokenResponse = pm.response.json();",
+									"const access_token = tokenResponse.access_token;",
+									"const refresh_token = tokenResponse.refresh_token;",
+									"",
+									"pm.environment.set('access_token', access_token);",
+									"pm.environment.set('refresh_token', refresh_token);",
+									"",
+									"// console.info('access_token: ', access_token);",
+									"// console.info('refresh_token', refresh_token);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "93ae20d5-1949-43f1-960a-a743a7e4bf55",
+								"exec": [
+									"//'use strict'",
+									"",
+									"//const user_name = pm.environment.get('user_name');",
+									"//console.info('user_name: ', user_name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret_id}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api-v2-sandbox.finerio.mx/oauth/token?username={{user_name}}&password={{user_pass}}&grant_type=password",
+							"protocol": "https",
+							"host": [
+								"api-v2-sandbox",
+								"finerio",
+								"mx"
+							],
+							"path": [
+								"oauth",
+								"token"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{user_name}}"
+								},
+								{
+									"key": "password",
+									"value": "{{user_pass}}"
+								},
+								{
+									"key": "grant_type",
+									"value": "password"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d9e1db5b-9043-4ee1-a285-fac1f279799b",
+								"exec": [
+									"const tokenResponse = pm.response.json();",
+									"const access_token = tokenResponse.access_token;",
+									"const refresh_token = tokenResponse.refresh_token;",
+									"",
+									"pm.environment.set('access_token', access_token);",
+									"pm.environment.set('refresh_token', refresh_token);",
+									"",
+									"// console.info('access_token: ', access_token);",
+									"// console.info('refresh_token', refresh_token);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "a0e4a7f1-6c3f-4254-adfe-8a30ed9bad77",
+								"exec": [
+									"//'use strict'",
+									"",
+									"//const user_name = pm.environment.get('user_name');",
+									"//console.info('user_name: ', user_name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret_id}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api-v2-sandbox.finerio.mx/oauth/token?username={{user_name}}&password={{user_pass}}&grant_type=refresh_token&refresh_token={{refresh_token}}",
+							"protocol": "https",
+							"host": [
+								"api-v2-sandbox",
+								"finerio",
+								"mx"
+							],
+							"path": [
+								"oauth",
+								"token"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{user_name}}"
+								},
+								{
+									"key": "password",
+									"value": "{{user_pass}}"
+								},
+								{
+									"key": "grant_type",
+									"value": "refresh_token"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Banks",
+			"item": [
+				{
+					"name": "Get Banks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d38152eb-ed02-4dd9-b335-68d3773dd2dd",
+								"exec": [
+									"'use strict'",
+									"",
+									"const banks_response = pm.response.json();",
+									"//console.info(banks_response);",
+									"if(banks_response.length>0){",
+									"    //console.info(banks_response[0].id);",
+									"    pm.environment.set('bank_id', banks_response[0].id);",
+									"}",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api-v2-sandbox.finerio.mx/banks",
+							"protocol": "https",
+							"host": [
+								"api-v2-sandbox",
+								"finerio",
+								"mx"
+							],
+							"path": [
+								"banks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Banks by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "99efdd63-2de6-41a5-8e5a-e0072fbfd3a9",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api-v2-sandbox.finerio.mx/banks/{{bank_id}}/fields",
+							"protocol": "https",
+							"host": [
+								"api-v2-sandbox",
+								"finerio",
+								"mx"
+							],
+							"path": [
+								"banks",
+								"{{bank_id}}",
+								"fields"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Create Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9073add-35f1-4f82-91ee-9255b3a0af7f",
+								"exec": [
+									"'use strict'",
+									"/*",
+									"const banks_response = pm.response.json();",
+									"//console.info(banks_response);",
+									"if(banks_response.length>0){",
+									"    //console.info(banks_response[0].id);",
+									"    pm.environment.set('bank_id', banks_response[0].id);",
+									"}",
+									"*/",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b284d477-a2fc-4af0-9e14-05fb9f69f535",
+								"exec": [
+									"'use strict'",
+									"",
+									"//const moment = require('moment');",
+									"const { v4: uuidv4 } = require('uuid');",
+									"// const transactionToDateTime = moment().format();",
+									"",
+									"// const user_name = pm.environment.get('user_name');",
+									"// console.info('user_name: ', user_name);",
+									"",
+									"var customer_request = {",
+									"    \"name\":uuidv4()+'@mail.com'",
+									"};",
+									"console.log(customer_request);",
+									"pm.environment.set('customer_request', customer_request);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{customer_request}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api-v2-sandbox.finerio.mx/customers",
+							"protocol": "https",
+							"host": [
+								"api-v2-sandbox",
+								"finerio",
+								"mx"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customers List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "19d15f66-99ee-41d3-b0f9-699089be8437",
+								"exec": [
+									"'use strict'",
+									"/*",
+									"const banks_response = pm.response.json();",
+									"//console.info(banks_response);",
+									"if(banks_response.length>0){",
+									"    //console.info(banks_response[0].id);",
+									"    pm.environment.set('bank_id', banks_response[0].id);",
+									"}",
+									"",
+									"*/",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "{{access_token}}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api-v2-sandbox.finerio.mx/customers",
+							"protocol": "https",
+							"host": [
+								"api-v2-sandbox",
+								"finerio",
+								"mx"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
